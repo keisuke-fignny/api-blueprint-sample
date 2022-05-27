@@ -1,0 +1,74 @@
+FORMAT: 1A
+
+# Group エラーハンドリングの基本
+### Response 401
+今回は存在しない。
+
+### Response 403
+今回は想定しない。
+
+### Response 500
+* エラー\
+{"error_code": 4003}
+
+
+# Group ユーザー関連
+
+## ユーザー一覧取得 [GET /users/]
+
+#### 処理概要
+ユーザーの一覧を取得する。通常のAPIであれば検索パラメータを付与して部分集団を返す事が可能だが、今回の課題ではその機能は省略し、全ユーザーを返すのみとする。
+
+
++ Request (application/json)
+
+    + Headers
+
+                Accept: application/json
+
+    + Body
+                なし
+
++ Response 200 (application/json)
+    + Attributes
+        + users (array[object], fixed_type)
+            + (object)
+                + id: 1(number) - 管理者ID
+                + name: 佐藤太郎(string) - 名前
+                + birth: `1982-01-05`(string) - 生年月日
+                + gender: 男(string) - 性別
+                + mail: xxxxxxx@email.com(string) - メールアドレス
+                + job: エンジニア(string) - 職種
+                + work_at: `2020-08-01`(string) - 入社年月日
+                + created_at: `2020-09-01`(string) - データ作成年月日
+                + updated_at: `2021-10-05`(string) - データ更新年月日
+
+
+## ユーザー本登録 [POST /users/create]
+
+#### 処理概要
+ユーザーの登録処理を行う。
+
++ Request (application/json)
+
+    + Headers
+
+                Accept: application/json
+
+    + Attributes
+        + name: 田中　太郎(string, required) - 登録するユーザー名
+        + birth: `1995-01-01`(string, required) - 登録するユーザーの生年月日
+        + gender: 男(string, required) - 登録するユーザーの性別
+        + mail: `test@example.com`(string, required) - 登録するユーザーのメールアドレス
+        + job: エンジニア(string, required) - 登録するユーザーの職種
+        + work_at: `2020-09-08`(string, required) - 登録するユーザーの入社年月日
+
+
++ Response 200 (application/json)
+
+    + Headers
+
+                なし
+
+    + Attributes
+        + userId: 25 (number, required) - 登録が正常に完了した場合に、ユーザーのIDを返却する
